@@ -1,265 +1,322 @@
-# 🔵 BlueChat - Early Access Signup Page
+# blueChat 🟦💬
+A fast, modern, and privacy‑first real‑time chat platform built for seamless communication across web and mobile. Lightweight architecture, delightful UX, and extensible plugin & bot support.
 
-[![React](https://img.shields.io/badge/React-18.0.0-blue.svg)](https://reactjs.org/)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5.0.0-blue.svg)](https://www.typescriptlang.org/)
-[![Vite](https://img.shields.io/badge/Vite-7.1.2-purple.svg)](https://vitejs.dev/)
-[![Framer Motion](https://img.shields.io/badge/Framer%20Motion-11.0.0-green.svg)](https://www.framer.com/motion/)
-[![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+<p align="center">
+  <!-- Badges: replace placeholders -->
+  <a href="https://github.com/OWNER/blueChat/actions"><img alt="CI" src="https://img.shields.io/github/actions/workflow/status/OWNER/blueChat/ci.yml?branch=main&label=CI"></a>
+  <a href="https://github.com/OWNER/blueChat/releases"><img alt="Release" src="https://img.shields.io/github/v/release/OWNER/blueChat"></a>
+  <a href="LICENSE"><img alt="License" src="https://img.shields.io/badge/License-MIT-blue.svg"></a>
+  <a href="#"><img alt="Coverage" src="https://img.shields.io/badge/Coverage-___%25-success"></a>
+  <a href="https://discord.gg/INVITE"><img alt="Community" src="https://img.shields.io/discord/XXXXXXXXXXXX?logo=discord&label=Chat"></a>
+</p>
 
-A modern, responsive landing page for BlueChat's early access signup. Built with cutting-edge technologies to showcase the revolutionary proximity-based ephemeral messaging app.
+---
 
-![BlueChat Signup Page Preview](https://via.placeholder.com/800x400/606C38/FFFFFF?text=BlueChat+Signup+Page)
+## ✨ Key Features
+- 🔄 Real‑time messaging (websocket / SSE / WebRTC data channels)
+- 🔐 Optional end‑to‑end encrypted direct messages
+- 👥 Group channels, threads, @mentions, reactions
+- 🖼️ Rich media: images, voice notes, files, code snippets
+- 🌓 Adaptive UI (light / dark / high contrast & theming API)
+- 📶 Offline queue + optimistic UI updates
+- 🔔 Push notifications (web + mobile PWA)
+- 🔌 Extensible bot & plugin architecture
+- 🗂️ Powerful search (full‑text + filters)
+- ♿ Accessible (WCAG AA) and fully keyboard navigable
+- 🌍 Internationalization (i18n) ready
+- 📱 Responsive + installable PWA
 
-## ✨ Features
+---
 
-- 🎨 **Modern Design** - Clean, funky aesthetics with smooth animations
-- 📱 **Fully Responsive** - Perfect on desktop, tablet, and mobile
-- ⚡ **Performance Optimized** - Fast loading with Vite and modern CSS
-- 🎭 **Smooth Animations** - Framer Motion powered interactions
-- 📧 **Email Collection** - Functional signup form with validation
-- 🌈 **Beautiful UI** - Warm earthy color palette with gradients
-- 🔍 **SEO Optimized** - Proper meta tags and semantic HTML
-- ♿ **Accessible** - WCAG compliant with proper contrast ratios
+## 🗺️ Roadmap Snapshot
+| Status | Theme | Highlights |
+|--------|-------|------------|
+| ✅ Done | Core | Auth, Channels, Basic Messaging |
+| 🚧 In Progress | Security | E2E encryption for DMs |
+| 🗓 Planned | Extensions | Bot SDK + Marketplace |
+| 🗓 Planned | Scalability | Horizontal sharding, multi-region presence |
 
-## 🎨 Design System
+(See full: [ROADMAP.md](ROADMAP.md) — create if not present.)
 
-**Color Palette** (Warm Earthy Theme):
-- **Light Background**: `#FEFAE0` (Warm cream)
-- **Dark Background**: `#283618` (Deep olive green)
-- **Primary**: `#606C38` (Olive green)
-- **Secondary**: `#DDA15E` (Warm golden)
-- **Accent**: `#BC6C25` (Golden brown)
+---
 
-## 🛠️ Tech Stack
+## 🏗️ Architecture Overview
 
-| Technology | Version | Purpose |
-|------------|---------|---------|
-| **React** | 18.0.0 | UI Framework |
-| **TypeScript** | 5.0.0 | Type Safety |
-| **Vite** | 7.1.2 | Build Tool & Dev Server |
-| **Framer Motion** | 11.0.0 | Animations |
-| **Lucide React** | 0.263.1 | Icons |
-| **CSS3** | - | Styling & Layout |
+```mermaid
+flowchart LR
+    subgraph Client
+      A[Web / Mobile / PWA] --> B[State Manager]
+      B --> C[Realtime Layer]
+    end
+
+    subgraph Backend
+      G[Gateway / API (REST + GraphQL?)] --> H[Auth Service]
+      G --> I[Message Service]
+      G --> J[User/Profile Service]
+      I --> K[(Primary DB)]
+      I --> L[(Search Index)]
+      C -->|WebSocket| G
+      M[Presence Service] --> R[In-memory Store (Redis)]
+      I --> Q[Queue / Stream (Kafka/NATS)]
+      Q --> N[Notification Worker]
+      Q --> O[Media Processor]
+      O --> P[(Object Storage)]
+      N --> S[Push Providers]
+    end
+
+    T[Bot / Plugin Runtime] --> G
+```
+
+---
+
+## 📂 Project Structure (example)
+```
+blueChat/
+├─ apps/
+│  ├─ web/                # Next.js / React frontend
+│  ├─ mobile/             # React Native / Flutter / etc.
+├─ packages/
+│  ├─ ui/                 # Shared design system
+│  ├─ sdk-js/             # Public JS/TS SDK
+│  ├─ encryption/         # Crypto helpers
+├─ services/
+│  ├─ gateway/            # API gateway (GraphQL/REST)
+│  ├─ messages/           # Message persistence
+│  ├─ presence/           # Presence + typing indicators
+│  ├─ notifications/      # Workers for push/email
+├─ infra/
+│  ├─ terraform/          # IaC
+│  ├─ k8s/                # Manifests / Helm charts
+├─ docs/
+│  ├─ architecture.md
+│  ├─ plugins.md
+├─ scripts/
+│  └─ dev.sh
+└─ ...
+```
+
+(Adjust to your actual structure.)
+
+---
 
 ## 🚀 Quick Start
 
 ### Prerequisites
-- Node.js (v16 or higher)
-- npm or yarn
+- Node.js >= 20 (or runtime you use)
+- pnpm / yarn / npm
+- Docker + Docker Compose
+- (Optional) Redis, Postgres, MinIO locally
 
-### Installation
-
-1. **Clone the repository**
-   ```bash
-   git clone https://github.com/yourusername/bluechat-signup.git
-   cd bluechat-signup
-   ```
-
-2. **Install dependencies**
-   ```bash
-   npm install
-   ```
-
-3. **Start development server**
-   ```bash
-   npm run dev
-   ```
-
-4. **Open in browser**
-   Navigate to `http://localhost:5173`
-
-### Available Scripts
-
+### Clone & Install
 ```bash
-npm run dev          # Start development server
-npm run build        # Build for production
-npm run preview      # Preview production build
-npm run lint         # Run ESLint
-npm run type-check   # Run TypeScript type checking
+git clone https://github.com/OWNER/blueChat.git
+cd blueChat
+pnpm install
 ```
 
-## 📱 Pages & Sections
-
-### Hero Section
-- **BlueChat Logo & Branding** - Animated logo with gradient styling
-- **Compelling Headline** - "Chat with people nearby"
-- **Email Signup Form** - Functional form with validation
-- **Animated Background** - Floating gradient orbs
-- **Scroll Indicator** - Guides users to learn more
-
-### Features Section
-- **6 Feature Cards** showcasing BlueChat's key benefits:
-  - 🗺️ **Proximity-Based** - Find people within 50 meters using Bluetooth
-  - 🛡️ **Ephemeral & Private** - Messages disappear when you leave
-  - 👥 **Room Management** - Up to 25 people per room
-  - ⚡ **Real-time Chat** - Instant messaging with live updates
-  - 📱 **Cross-Platform** - iOS, Android, and Web support
-  - ⭐ **Modern Tech** - Built with cutting-edge technologies
-
-### Call-to-Action Section
-- **Secondary Signup Opportunity** - Another chance to join early access
-- **Compelling Copy** - Motivates users to sign up
-- **Gradient Background** - Visual impact
-
-## 🎯 Key Features Explained
-
-### Proximity-Based Messaging
-Find and connect with people physically near you using Bluetooth technology. BlueChat scans for nearby users and creates ephemeral chat rooms.
-
-### Ephemeral & Private
-No permanent accounts or data retention. Your messages disappear when you leave a room, ensuring complete privacy and anonymity.
-
-### Room Management
-Join intimate chat rooms with up to 25 people. Rooms automatically lock when full, creating meaningful, focused conversations.
-
-### Real-time Chat
-Experience instant messaging with live updates. No delays, no waiting - just pure, real-time connection with people around you.
-
-### Cross-Platform Support
-Works seamlessly across iOS, Android, and Web platforms. Connect with people regardless of their device preference.
-
-### Modern Technology
-Built with React Native, Firebase, and cutting-edge technologies to deliver the best possible user experience.
-
-## 🔧 Customization
-
-### Colors
-Update the color variables in `src/App.css`:
-```css
-:root {
-  --light-bg: #FEFAE0;
-  --dark-bg: #283618;
-  --primary: #606C38;
-  --secondary: #DDA15E;
-  --accent: #BC6C25;
-}
-```
-
-### Content
-Edit the content in `src/App.tsx`:
-- Hero title and subtitle
-- Feature descriptions
-- CTA copy
-- Footer text
-
-### Animations
-Modify Framer Motion animations in the React components for different effects.
-
-## 📊 Performance Metrics
-
-- **Lighthouse Score**: 95+ across all metrics
-- **First Contentful Paint**: < 1.5s
-- **Largest Contentful Paint**: < 2.5s
-- **Cumulative Layout Shift**: < 0.1
-- **Bundle Size**: < 200KB gzipped
-
-## 🔒 Privacy & Security
-
-- ✅ No tracking or analytics
-- ✅ Email collection for early access only
-- ✅ GDPR compliant
-- ✅ No third-party cookies
-- ✅ Secure form handling
-
-## 🚀 Deployment
-
-### Build for Production
+### Environment Setup
+Copy the example env file(s) and fill in secrets:
 ```bash
-npm run build
+cp .env.example .env
+# or per service:
+cp services/gateway/.env.example services/gateway/.env
+```
+Essential variables:
+```
+DATABASE_URL=postgres://...
+REDIS_URL=redis://localhost:6379
+JWT_SECRET=change_me
+OBJECT_STORAGE_ENDPOINT=http://localhost:9000
+ENCRYPTION_KEY=...
 ```
 
-### Deploy to Netlify
-1. Push code to GitHub
-2. Connect repository to Netlify
-3. Deploy automatically
-
-### Deploy to Vercel
+### Run Services (Dev)
 ```bash
-npm install -g vercel
-vercel
-```
+# Start backing services
+docker compose up -d
 
-### Deploy to GitHub Pages
+# Start all dev apps (turborepo / nx / custom)
+pnpm dev
+```
+Open: http://localhost:3000
+
+### Seed Data (optional)
 ```bash
-npm run build
-# Push dist folder to gh-pages branch
+pnpm ts-node scripts/seed.ts
 ```
-
-### Deploy to Any Static Hosting
-The `dist` folder contains all production files ready for deployment.
-
-## 🤝 Contributing
-
-We welcome contributions! Please follow these steps:
-
-1. **Fork the repository**
-2. **Create a feature branch**
-   ```bash
-   git checkout -b feature/amazing-feature
-   ```
-3. **Make your changes**
-4. **Test thoroughly**
-5. **Commit your changes**
-   ```bash
-   git commit -m 'Add amazing feature'
-   ```
-6. **Push to the branch**
-   ```bash
-   git push origin feature/amazing-feature
-   ```
-7. **Open a Pull Request**
-
-### Development Guidelines
-- Follow TypeScript best practices
-- Use meaningful commit messages
-- Test on multiple devices and browsers
-- Ensure accessibility compliance
-- Optimize for performance
-
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## 🎉 About BlueChat
-
-BlueChat is a revolutionary proximity-based chat application that connects people nearby through Bluetooth discovery and creates ephemeral chat rooms. Built as a portfolio project showcasing modern mobile development skills.
-
-### Core Concept
-- **Ephemeral messaging** (no permanent accounts)
-- **Proximity-based discovery** using Bluetooth
-- **Room capacity management** (max 25 people)
-- **Real-time chat** with live updates
-- **Privacy-first approach**
-- **Cross-platform support**
-
-### Technology Stack
-- **Frontend**: React Native with Expo
-- **Backend**: Firebase Firestore & Functions
-- **State Management**: Zustand
-- **Navigation**: Expo Router
-- **Styling**: Custom design system
-
-## 📞 Support
-
-- **Email**: support@bluechat.app
-- **GitHub Issues**: [Create an issue](https://github.com/yourusername/bluechat-signup/issues)
-- **Documentation**: [Project Wiki](https://github.com/yourusername/bluechat-signup/wiki)
-
-## 🙏 Acknowledgments
-
-- **Framer Motion** for smooth animations
-- **Lucide React** for beautiful icons
-- **Vite** for fast development experience
-- **React Team** for the amazing framework
 
 ---
 
-<div align="center">
+## 🧪 Testing
+```bash
+pnpm test              # Unit
+pnpm test:watch
+pnpm test:e2e          # Playwright / Cypress
+pnpm lint && pnpm typecheck
+```
 
-**Built with ❤️ for meaningful connections**
+Generate coverage:
+```bash
+pnpm test --coverage
+```
 
-[![GitHub stars](https://img.shields.io/github/stars/yourusername/bluechat-signup?style=social)](https://github.com/yourusername/bluechat-signup)
-[![GitHub forks](https://img.shields.io/github/forks/yourusername/bluechat-signup?style=social)](https://github.com/yourusername/bluechat-signup)
-[![GitHub issues](https://img.shields.io/github/issues/yourusername/bluechat-signup)](https://github.com/yourusername/bluechat-signup/issues)
+---
 
-</div>
+## 🔐 Security & Privacy
+- Zero‑knowledge optional DM encryption (X3DH + Double Ratchet) — SEE: docs/encryption.md
+- Strict Content Security Policy
+- Rate limiting & abuse detection
+- Audit logging for admin events
+- (Planned) Transparent multi‑party key escrow for org backups
+
+Report vulnerabilities privately: security@YOURDOMAIN or Security Advisory (GitHub)
+
+---
+
+## 🧩 Plugin / Bot Ecosystem
+Expose hooks:
+- message:received
+- message:pre_send
+- channel:created
+- user:presence_update
+
+Example Bot (JS/TS):
+```ts
+import { defineBot } from "@bluechat/sdk";
+
+export default defineBot({
+  name: "EchoBot",
+  onMessage(ctx, message) {
+    if (message.text.startsWith("!echo ")) {
+      ctx.reply(message.text.slice(6));
+    }
+  }
+});
+```
+
+More: docs/plugins.md
+
+---
+
+## 📦 SDK Usage (JavaScript)
+```ts
+import { BlueChatClient } from "@bluechat/sdk";
+
+const client = new BlueChatClient({
+  token: "USER_JWT",
+  url: "wss://api.bluechat.example/ws"
+});
+
+await client.connect();
+
+const channel = await client.joinChannel("general");
+channel.on("message", (m) => console.log(m.author.username, ":", m.text));
+
+channel.send("Hello world!");
+```
+
+---
+
+## 🌐 Deployment
+
+| Layer | Option | Notes |
+|-------|--------|-------|
+| Runtime | Containers (Docker / K8s) | Horizontal scaling per service |
+| DB | Postgres / CockroachDB | Partitioning planned |
+| Cache | Redis Cluster | Presence + ephemeral state |
+| Object Storage | S3 / MinIO | Media + attachments |
+| Queue | Kafka / NATS | Fan‑out for workers |
+| CDN | Cloudflare / Fastly | Static + media acceleration |
+
+Helm Chart (example):
+```
+helm repo add bluechat https://OWNER.github.io/blueChat
+helm install bluechat bluechat/bluechat
+```
+
+---
+
+## 📊 Observability
+- Metrics: OpenTelemetry → Prometheus → Grafana
+- Tracing: OTLP → Jaeger / Tempo
+- Logs: Structured JSON → Loki / ELK
+- Alerting: Grafana Alertmanager → Slack / PagerDuty
+
+---
+
+## 🧭 Design Principles
+1. Minimal round‑trips (batch / edge caching)
+2. Consistency over premature micro‑optimizations
+3. Crypto optional but first‑class
+4. Extensibility without forking
+5. Accessibility is non‑negotiable
+
+---
+
+## 🛠️ Tech Stack (replace if different)
+- Frontend: React / Next.js, Tailwind / Design System
+- Backend: TypeScript (Node.js) / Go / Rust? (CHOOSE ONE)
+- Realtime: WebSockets (ws) + Fallback (SSE)
+- Database: Postgres + Prisma ORM
+- Cache: Redis
+- Search: Meilisearch / OpenSearch
+- Queue: Kafka / NATS
+- Storage: S3-compatible
+- Infra: Kubernetes, Terraform, GitHub Actions CI
+
+---
+
+## 🤝 Contributing
+1. Fork & create feature branch: git checkout -b feat/amazing
+2. Write tests + docs
+3. Run checks: pnpm validate (script bundling lint/test/type)
+4. Submit PR with clear description & screenshots
+
+See: [CONTRIBUTING.md](CONTRIBUTING.md) (create if missing)
+
+---
+
+## 🗣️ Community & Support
+- Discussions: GitHub Discussions tab
+- Discord / Slack: INVITE LINK
+- Issue Tracking: Use labels bug / feature / security
+- Security: See Security section above
+
+---
+
+## 📜 License
+Distributed under the MIT License. See [LICENSE](LICENSE) for details.
+
+---
+
+## 🙌 Acknowledgements
+- Insert upstream libraries & inspirations here
+- Emoji set: Twemoji
+- Crypto reference: Signal Protocol
+
+---
+
+## ✅ Status Badges (optional extras)
+Add more:
+```
+![Lines of Code](https://img.shields.io/tokei/lines/github/OWNER/blueChat)
+![Last Commit](https://img.shields.io/github/last-commit/OWNER/blueChat)
+![Open Issues](https://img.shields.io/github/issues/OWNER/blueChat)
+```
+
+---
+
+## 🔄 Changelog
+See [CHANGELOG.md](CHANGELOG.md) following Keep a Changelog + SemVer.
+
+---
+
+## 🧭 Next Steps for You
+Replace:
+- OWNER, repository links
+- Badges (CI file name, coverage)
+- Tech stack decision placeholders
+- Add screenshots: /docs/assets/screenshot-*.png
+- Fill encryption docs if implemented
+
+Happy building! 💙
